@@ -1,12 +1,3 @@
-const routerBase =
-	process.env.DEPLOY_ENV === "GH_PAGES"
-		? {
-				router: {
-					base: "/nuxt-movie-app/",
-				},
-		  }
-		: {};
-
 export default {
 	// Global page headers: https://go.nuxtjs.dev/config-head
 	head: {
@@ -34,7 +25,10 @@ export default {
 	// Global CSS: https://go.nuxtjs.dev/config-css
 	css: ["@/assets/scss/main.scss"],
 
-	...routerBase,
+	target: "static",
+	router: {
+		base: "/nuxt-movie-app/",
+	},
 
 	publicRuntimeConfig: {
 		axios: {
