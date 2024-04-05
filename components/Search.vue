@@ -26,10 +26,11 @@ export default {
 		...mapActions(["searchMovies"]),
 		onSearch() {
 			this.searchMovies(this.searchInput);
-			this.$emit("checkSearchInput", this.searchInput);
+			this.$emit("onSearchInput", this.searchInput);
 		},
 		onClear() {
 			this.searchInput = "";
+			this.$emit("onClearSearch", "");
 		},
 	},
 };

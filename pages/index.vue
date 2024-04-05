@@ -4,7 +4,10 @@
 
 		<Loading v-if="$fetchState.pending" />
 
-		<Search @checkSearchInput="handleSearchInput" />
+		<Search
+			@onSearchInput="handleSearchInput"
+			@onClearSearch="handleSearchInput"
+		/>
 
 		<MovieList :movies="allMovies" />
 	</div>

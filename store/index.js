@@ -19,7 +19,7 @@ const actions = {
 		const res = await this.$axios.get(
 			`/search/movie?api_key=${process.env.NUXT_ENV_MOVIE_API_KEY}&language=en-US&page=1&query=${searchInput}`
 		);
-		console.log(res.data.results);
+
 		commit("SET_MOVIES", res.data.results);
 	},
 };
