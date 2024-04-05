@@ -7,9 +7,16 @@
 		width: 100%;
 		padding: 12px 6px;
 		font-size: 14px;
+		border-radius: 4px;
 		border: none;
+
 		&:focus {
 			outline: none;
+		}
+
+		&.searching {
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
 		}
 	}
 

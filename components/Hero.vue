@@ -5,7 +5,7 @@
 			<div class="text">
 				<span class="mini-heading">Now Streaming</span>
 				<h1><span>Now</span> Streaming</h1>
-				<a href="#movie-grid" class="button">View Movies</a>
+				<a href="#" @click="smoothScroll" class="button">View Movies</a>
 			</div>
 		</div>
 	</div>
@@ -14,5 +14,11 @@
 <script>
 export default {
 	name: "Hero",
+	methods: {
+		smoothScroll(e) {
+			e.preventDefault();
+			document.querySelector("#movie-grid").scrollIntoView();
+		},
+	},
 };
 </script>

@@ -2,22 +2,16 @@
 	<div class="home">
 		<Hero />
 
-		<!-- Loading -->
-		<!-- <Loading v-if="$fetchState.pending" /> -->
+		<Loading v-if="$fetchState.pending" />
 
-		<div class="container movies">
-			<!-- display searched movies -->
-			<!-- <SearchMovieList v-if="searchInput !== ''" /> -->
+		<Search @checkSearchInput="handleSearchInput" />
 
-			<!-- display movies -->
-			<!-- <MovieList v-else /> -->
-
-			<MovieList :movies="$store.state.movies" />
-		</div>
+		<MovieList :movies="allMovies" />
 	</div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
 	name: "Movies",
 	head() {
@@ -38,20 +32,17 @@ export default {
 			],
 		};
 	},
+	computed: {
+		...mapGetters(["allMovies"]),
+	},
 	async fetch() {
-		await this.getMovies();
+		await this.handleSearchInput();
 	},
 	methods: {
-		async getMovies() {
-			try {
-				const res = await this.$axios.get(
-					`/movie/now_playing?api_key=${process.env.NUXT_ENV_MOVIE_API_KEY}&language=en-US&page=1`
-				);
-				const movies = res.data.results;
-				this.$store.commit("SET_MOVIES", movies);
-			} catch (error) {
-				console.error("Error fetching movies:", error);
-			}
+		...mapActions(["fetchMovies", "searchMovies"]),
+		async handleSearchInput(searchInput) {
+			if (!searchInput) return await this.fetchMovies();
+			await this.searchMovies(searchInput);
 		},
 	},
 };
