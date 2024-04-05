@@ -11,7 +11,7 @@
 			</div>
 
 			<div class="movie-content">
-				<h1>Title: {{ movie.title }}</h1>
+				<h1>{{ movie.title }}</h1>
 				<p class="movie-fact tagline">
 					<span>Tagline:</span> "{{ movie.tagline }}"
 				</p>
