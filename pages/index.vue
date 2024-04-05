@@ -41,6 +41,7 @@ export default {
 	async fetch() {
 		await this.handleSearchInput();
 	},
+	fetchDelay: 1000,
 	methods: {
 		...mapActions(["fetchMovies", "searchMovies"]),
 		async handleSearchInput(searchInput) {

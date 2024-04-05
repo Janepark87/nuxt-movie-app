@@ -5,6 +5,7 @@ const state = () => ({
 
 const getters = {
 	allMovies: (state) => state.movies,
+	singleMovie: (state) => state.movie,
 };
 
 const actions = {
@@ -22,10 +23,18 @@ const actions = {
 
 		commit("SET_MOVIES", res.data.results);
 	},
+	async fetchSingleMovie({ commit }, movieId) {
+		const res = await this.$axios.get(
+			`/movie/${movieId}?api_key=${process.env.NUXT_ENV_MOVIE_API_KEY}&language=en-US`
+		);
+
+		commit("SET_SINGLE_MOVIE", res.data);
+	},
 };
 
 const mutations = {
 	SET_MOVIES: (state, movies) => (state.movies = movies),
+	SET_SINGLE_MOVIE: (state, movie) => (state.movie = movie),
 };
 
 export default {

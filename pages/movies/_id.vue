@@ -1,10 +1,9 @@
 <template>
 	<Loading v-if="$fetchState.pending" />
 	<div v-else class="container single-movie">
-		<NuxtLink class="button" :to="{ name: 'index' }">Back</NuxtLink>
-
+		<NuxtLink class="button" to="/">Back</NuxtLink>
 		<div class="movie-info">
-			<div class="movie-img">
+			<div :class="`movie-img ${!movie.poster_path && 'no-img'}`">
 				<img
 					:src="`https://image.tmdb.org/t/p/w500/${movie.poster_path}`"
 					alt="movie image"
@@ -50,7 +49,7 @@
 	</div>
 </template>
 <script>
-import axios from "axios";
+import { mapState, mapActions } from "vuex";
 
 export default {
 	name: "MovieDetail",
@@ -59,27 +58,15 @@ export default {
 			title: `Movie - ${this.movie.title}`,
 		};
 	},
-	data() {
-		return {
-			movie: "",
-		};
+	computed: {
+		...mapState(["movie"]),
 	},
 	async fetch() {
-		await this.getSingleMovie();
+		await this.fetchSingleMovie(this.$route.params.id);
 	},
 	fetchDelay: 1000,
 	methods: {
-		async getSingleMovie() {
-			try {
-				const result = await axios.get(
-					`https://api.themoviedb.org/3/movie/${this.$route.params.id}?api_key=afd63acc2ce660b5f1201e831ad4db80&language=en-US`
-				);
-
-				this.movie = result.data;
-			} catch (err) {
-				console.log(err);
-			}
-		},
+		...mapActions(["fetchSingleMovie"]),
 	},
 };
 </script>
