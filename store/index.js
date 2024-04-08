@@ -10,31 +10,43 @@ const getters = {
 
 const actions = {
 	async fetchMovies({ commit }) {
-		const res = await this.$axios.get(
-			`/movie/now_playing?api_key=${process.env.NUXT_ENV_MOVIE_API_KEY}&language=en-US&page=1`
+		const { movies } = await getData(
+			`/movie/now_playing?api_key=${process.env.NUXT_ENV_MOVIE_API_KEY}&language=en-US&page=1`,
+			this.$axios
 		);
 
-		commit("SET_MOVIES", res.data.results);
+		commit("SET_MOVIES", movies);
 	},
 	async searchMovies({ commit }, searchInput) {
-		const res = await this.$axios.get(
-			`/search/movie?api_key=${process.env.NUXT_ENV_MOVIE_API_KEY}&language=en-US&page=1&query=${searchInput}`
+		const { movies } = await getData(
+			`/search/movie?api_key=${process.env.NUXT_ENV_MOVIE_API_KEY}&language=en-US&page=1&query=${searchInput}`,
+			this.$axios
 		);
 
-		commit("SET_MOVIES", res.data.results);
+		commit("SET_MOVIES", movies);
 	},
 	async fetchSingleMovie({ commit }, movieId) {
-		const res = await this.$axios.get(
-			`/movie/${movieId}?api_key=${process.env.NUXT_ENV_MOVIE_API_KEY}&language=en-US`
+		console.log("movie id");
+		const { movie } = await getData(
+			`/movie/${movieId}?api_key=${process.env.NUXT_ENV_MOVIE_API_KEY}&language=en-US`,
+			this.$axios
 		);
 
-		commit("SET_SINGLE_MOVIE", res.data);
+		commit("SET_SINGLE_MOVIE", movie);
 	},
 };
 
 const mutations = {
 	SET_MOVIES: (state, movies) => (state.movies = movies),
 	SET_SINGLE_MOVIE: (state, movie) => (state.movie = movie),
+};
+
+const getData = async (url, axios) => {
+	const res = await axios.get(url);
+	return {
+		movies: res.data.results,
+		movie: res.data,
+	};
 };
 
 export default {
